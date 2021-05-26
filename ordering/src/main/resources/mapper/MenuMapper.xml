@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.ordering.dao.MenuMapper">
+    <resultMap id="BaseResultMap" type="com.wang.ordering.model.pojo.Menu">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="price" jdbcType="DOUBLE" property="price"/>
+        <result column="description" jdbcType="VARCHAR" property="description"/>
+        <result column="picture" jdbcType="VARCHAR" property="picture"/>
+        <result column="sort" jdbcType="INTEGER" property="sort"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+            id,'name', price, description, picture, sort
+    </sql>
+
+    <select id="selectAll" parameterType="com.wang.ordering.model.bo.MenuBo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from menu order by id asc LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(distinct id) from menu
+    </select>
+
+    <insert id="insertMenu" parameterType="com.wang.ordering.model.pojo.Menu">
+            insert into menu (id,'name',price, description,picture,sort)
+            values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=DOUBLE},
+              #{description,jdbcType=VARCHAR},#{picture,jdbcType=VARCHAR},#{sort,jdbcType=INTEGER})
+
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.wang.ordering.model.pojo.Menu">
+            update menu
+            set 'name' = #{name,jdbcType=VARCHAR},
+              price = #{price,jdbcType=DOUBLE},
+              description = #{description,jdbcType=VARCHAR},
+              picture = #{picture,jdbcType=VARCHAR},
+              sort = #{sort,jdbcType=INTEGER}
+            where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+            delete from menu
+            where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

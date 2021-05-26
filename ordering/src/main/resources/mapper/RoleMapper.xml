@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wang.ordering.dao.RoleMapper">
+    <resultMap id="BaseResultMap" type="com.wang.ordering.model.pojo.Role">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="role" jdbcType="INTEGER" property="role"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+            id,account, username, passsword, role
+    </sql>
+
+    <select id="selectAll" parameterType="com.wang.ordering.model.bo.RoleBo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from role order by id asc LIMIT #{pageNum},#{pageSize}
+    </select>
+
+    <select id="selectCount" resultType="int">
+        select count(distinct id) from role
+    </select>
+
+    <insert id="insertRole" parameterType="com.wang.ordering.model.pojo.Role">
+            insert into role (id,account,username, password,role)
+            values (#{id,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR},
+              #{password,jdbcType=VARCHAR},#{role,jdbcType=INTEGER})
+
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.wang.ordering.model.pojo.Role">
+            update role
+            set account = #{account,jdbcType=VARCHAR},
+              username = #{username,jdbcType=VARCHAR},
+              password = #{password,jdbcType=VARCHAR},
+              role = #{role,jdbcType=INTEGER}
+            where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+            delete from role
+            where id = #{id,jdbcType=INTEGER}
+    </delete>
+
+</mapper>
